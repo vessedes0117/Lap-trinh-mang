@@ -19,10 +19,11 @@ public class MailService {
     private static final String SYSTEM_EMAIL = "mangoisme03@gmail.com";
     private static final String SYSTEM_PASSWORD = "ecejffzypkzvymwn";
 
+    // ĐÃ SỬA: Tham số cuối nhận List<String> thay vì String
     public static void sendMail(String to,
                                 String subject,
                                 String content,
-                                String filePath)
+                                List<String> attachments)
             throws Exception {
 
         Properties props = new Properties();
@@ -70,14 +71,15 @@ public class MailService {
 
         multipart.addBodyPart(textPart);
 
-        // ATTACHMENT
-        if (filePath != null && !filePath.isEmpty()) {
-
-            MimeBodyPart attachPart = new MimeBodyPart();
-
-            attachPart.attachFile(new File(filePath));
-
-            multipart.addBodyPart(attachPart);
+        // ĐÃ SỬA: Vòng lặp để đính kèm nhiều file
+        if (attachments != null) {
+            for (String path : attachments) {
+                if (path != null && !path.isEmpty()) {
+                    MimeBodyPart ap = new MimeBodyPart();
+                    ap.attachFile(new File(path));
+                    multipart.addBodyPart(ap);
+                }
+            }
         }
 
         message.setContent(multipart);
@@ -145,11 +147,12 @@ public class MailService {
 
             try {
 
+                // ĐÃ SỬA: Truyền req.getAttachmentPaths() thay vì req.getAttachmentPath()
                 sendMail(
                         email,
                         req.getSubject(),
                         req.getContent(),
-                        req.getAttachmentPath()
+                        req.getAttachmentPaths()
                 );
 
                 System.out.println("Sent to: " + email);

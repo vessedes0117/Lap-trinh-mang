@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class MailRequest implements Serializable {
 
@@ -9,6 +10,9 @@ public class MailRequest implements Serializable {
     private String content;
     private String attachmentPath;
     private String excelFile;
+
+    // Thêm field chứa danh sách nhiều file
+    private List<String> attachmentPaths;
 
     public MailRequest(String to,
                        String subject,
@@ -43,5 +47,14 @@ public class MailRequest implements Serializable {
 
     public void setExcelFile(String excelFile){
         this.excelFile = excelFile;
+    }
+
+    // Getters & Setters cho danh sách file đính kèm
+    public List<String> getAttachmentPaths() {
+        return attachmentPaths;
+    }
+
+    public void setAttachmentPaths(List<String> paths) {
+        this.attachmentPaths = paths;
     }
 }

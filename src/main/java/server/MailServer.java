@@ -48,7 +48,7 @@ public class MailServer {
                     mailService.sendMultipleEmails(req);
 
                     // 2. Đăng ký email vào whitelist auto reply (Code mới cập nhật)
-                    if (req.getExcelFile() != null && !req.ltgetExcelFile().isEmpty()) {
+                    if (req.getExcelFile() != null && !req.getExcelFile().isEmpty()) {
                         // Trường hợp gửi từ danh sách Excel
                         mailService.readEmails(req.getExcelFile())
                                 .forEach(autoReplyService::registerSentEmail);
